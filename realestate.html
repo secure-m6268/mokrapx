@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOKRAP | Premium Real Estate</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script>
+        // Minimal Icon Components for the UI
+        const Icons = {
+            Menu: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('line', { x1:"4", x2:"20", y1:"12", y2:"12" }), React.createElement('line', { x1:"4", x2:"20", y1:"6", y2:"6" }), React.createElement('line', { x1:"4", x2:"20", y1:"18", y2:"18" })),
+            X: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M18 6 6 18" }), React.createElement('path', { d:"m6 6 12 12" })),
+            MapPin: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" }), React.createElement('circle', { cx:"12", cy:"10", r:"3" })),
+            Bed: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M2 4v16" }), React.createElement('path', { d:"M2 8h18a2 2 0 0 1 2 2v10" }), React.createElement('path', { d:"M2 17h20" }), React.createElement('path', { d:"M6 8v9" })),
+            Bath: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M9 6 6.5 3.5a1.5 1.5 0 0 0-1 0.5C5.017 4.5 5 5 5 5" }), React.createElement('path', { d:"M10 5 8 7" }), React.createElement('path', { d:"M13 10 8 7" }), React.createElement('path', { d:"M2 12h20" }), React.createElement('path', { d:"M7 19v-7a5 5 0 0 1 10 0v7" }), React.createElement('path', { d:"M6 19h12" })),
+            Maximize: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M8 3H5a2 2 0 0 0-2 2v3" }), React.createElement('path', { d:"M21 8V5a2 2 0 0 0-2-2h-3" }), React.createElement('path', { d:"M3 16v3a2 2 0 0 0 2 2h3" }), React.createElement('path', { d:"M16 21h3a2 2 0 0 0 2-2v-3" })),
+            ArrowRight: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M5 12h14" }), React.createElement('path', { d:"m12 5 7 7-7 7" })),
+            Instagram: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('rect', { width:"20", height:"20", x:"2", y:"2", rx:"5", ry:"5" }), React.createElement('path', { d:"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" }), React.createElement('line', { x1:"17.5", x2:"17.51", y1:"6.5", y2:"6.5" })),
+            Twitter: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" })),
+            Linkedin: (props) => React.createElement('svg', { ...props, xmlns:"http://www.w3.org/2000/svg", width:"24", height:"24", viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" }, React.createElement('path', { d:"M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" }), React.createElement('rect', { width:"4", height:"12", x:"2", y:"9" }), React.createElement('circle', { cx:"4", cy:"4", r:"2" }))
+        };
+    </script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              mokrap: {
+                dark: '#1a0b1c', // Very dark violet/brown
+                base: '#2d1b2e', // Primary background
+                card: '#432c4a', // Card background
+                accent: '#b388eb', // Light violet highlight
+                text: '#e0d0e8', // Light lavender text
+                muted: '#9ca3af',
+                gold: '#d4af37'  // Luxury accent
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      body {
+        background-color: #1a0b1c;
+        color: #e0d0e8;
+        font-family: 'Inter', sans-serif;
+      }
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #2d1b2e; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #432c4a; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #b388eb; 
+      }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { HashRouter, Routes, Route, Link, useLocation, NavLink } = ReactRouterDOM;
+
+        // --- TYPES ---
+        const PropertyType = {
+            RESIDENTIAL: 'Residential',
+            PLOT: 'Plot',
+            OTHER: 'Other'
+        };
+
+        // --- CONSTANTS ---
+        const MOCK_PROPERTIES = [
+          {
+            id: '1',
+            title: 'Luxury Villa with Garden',
+            price: '$850,000',
+            location: 'Beverly Hills, CA',
+            type: PropertyType.RESIDENTIAL,
+            area: '4500 sqft',
+            description: 'A stunning modern villa featuring a private garden, pool, and state-of-the-art smart home integration.',
+            images: ['https://picsum.photos/800/600?random=1'],
+            videoUrl: 'https://www.youtube.com/watch?v=dummy1',
+            features: ['5 Bedrooms', '4 Bathrooms', 'Pool', 'Garage']
+          },
+          {
+            id: '2',
+            title: 'Prime Corner Plot',
+            price: '$220,000',
+            location: 'Austin, TX',
+            type: PropertyType.PLOT,
+            area: '5000 sqft',
+            description: 'Ready-to-build corner plot in a developing upscale neighborhood. Perfect for a custom home.',
+            images: ['https://picsum.photos/800/600?random=4'],
+            videoUrl: 'https://www.youtube.com/watch?v=dummy2',
+            features: ['Corner Lot', 'Utility Connections', 'Zoned Residential']
+          },
+          {
+            id: '3',
+            title: 'Downtown Loft Apartment',
+            price: '$450,000',
+            location: 'New York, NY',
+            type: PropertyType.RESIDENTIAL,
+            area: '1200 sqft',
+            description: 'Industrial chic loft in the heart of the city. High ceilings and exposed brick walls.',
+            images: ['https://picsum.photos/800/600?random=6'],
+            features: ['1 Bedroom', '1.5 Bathrooms', 'City View', 'Gym Access']
+          },
+          {
+            id: '4',
+            title: 'Commercial Warehouse Space',
+            price: '$1,200,000',
+            location: 'Chicago, IL',
+            type: PropertyType.OTHER,
+            area: '10000 sqft',
+            description: 'Expansive warehouse space suitable for logistics or manufacturing. High bay doors.',
+            images: ['https://picsum.photos/800/600?random=8'],
+            features: ['Loading Dock', 'Office Space', 'High Ceilings']
+          },
+          {
+            id: '5',
+            title: 'Sunset Valley Plot',
+            price: '$180,000',
+            location: 'Phoenix, AZ',
+            type: PropertyType.PLOT,
+            area: '7500 sqft',
+            description: 'Scenic plot with mountain views. Ideal for a vacation home or retirement villa.',
+            images: ['https://picsum.photos/800/600?random=10'],
+            features: ['Mountain View', 'Flat Terrain']
+          },
+          {
+            id: '6',
+            title: 'Modern Office Complex',
+            price: '$3,500,000',
+            location: 'Seattle, WA',
+            type: PropertyType.OTHER,
+            area: '15000 sqft',
+            description: 'Turnkey office building with conference rooms, break areas, and dedicated parking.',
+            images: ['https://picsum.photos/800/600?random=11'],
+            features: ['Conference Rooms', 'Cafeteria', 'Parking Structure']
+          }
+        ];
+
+        const NAV_LINKS = [
+          { label: 'Home', path: '/' },
+          { label: 'Residential', path: '/residential' },
+          { label: 'Plots', path: '/plot' },
+          { label: 'Other', path: '/other' },
+        ];
+
+        // --- COMPONENTS ---
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const location = useLocation();
+
+            return (
+                <nav className="bg-mokrap-dark/90 backdrop-blur-md border-b border-mokrap-card sticky top-0 z-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-20">
+                            {/* Logo */}
+                            <div className="flex-shrink-0">
+                                <Link to="/" className="text-2xl font-bold tracking-wider text-mokrap-text">
+                                    MOK<span className="text-mokrap-accent">RAP</span>
+                                </Link>
+                            </div>
+
+                            {/* Desktop Menu */}
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-8">
+                                    {NAV_LINKS.map((link) => (
+                                        <Link
+                                            key={link.path}
+                                            to={link.path}
+                                            className={`${
+                                                location.pathname === link.path
+                                                    ? 'text-mokrap-accent'
+                                                    : 'text-mokrap-text hover:text-white'
+                                            } px-3 py-2 rounded-md text-sm font-medium transition-colors`}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    ))}
+                                    <Link 
+                                        to="/contact" 
+                                        className="bg-mokrap-accent text-mokrap-dark hover:bg-white px-4 py-2 rounded-md text-sm font-bold transition-colors"
+                                    >
+                                        Contact Us
+                                    </Link>
+                                </div>
+                            </div>
+
+                            {/* Mobile Menu Button */}
+                            <div className="md:hidden">
+                                <button
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="text-mokrap-text hover:text-white p-2"
+                                >
+                                    {isOpen ? <Icons.X /> : <Icons.Menu />}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu */}
+                    {isOpen && (
+                        <div className="md:hidden bg-mokrap-card border-b border-mokrap-base">
+                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                                {NAV_LINKS.map((link) => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        onClick={() => setIsOpen(false)}
+                                        className={`${
+                                            location.pathname === link.path
+                                                ? 'text-mokrap-accent bg-mokrap-base'
+                                                : 'text-mokrap-text'
+                                        } block px-3 py-2 rounded-md text-base font-medium`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                                <Link
+                                    to="/contact"
+                                    onClick={() => setIsOpen(false)}
+                                    className="block px-3 py-2 mt-4 text-center rounded-md text-base font-bold bg-mokrap-accent text-mokrap-dark"
+                                >
+                                    Contact Us
+                                </Link>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const PropertyCard = ({ property }) => {
+            return (
+                <div className="bg-mokrap-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-mokrap-base group">
+                    <div className="relative h-64 overflow-hidden">
+                        <img 
+                            src={property.images[0]} 
+                            alt={property.title} 
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute top-4 right-4 bg-mokrap-dark/80 px-3 py-1 rounded-full text-xs font-semibold text-mokrap-accent uppercase tracking-wider">
+                            {property.type}
+                        </div>
+                    </div>
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl font-bold text-white truncate">{property.title}</h3>
+                        </div>
+                        <p className="text-mokrap-gold text-lg font-semibold mb-4">{property.price}</p>
+                        
+                        <div className="flex items-center text-mokrap-muted text-sm mb-4">
+                            <Icons.MapPin className="w-4 h-4 mr-1 text-mokrap-accent" />
+                            {property.location}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 mb-6 text-sm text-gray-300">
+                            <div className="flex items-center">
+                                <Icons.Maximize className="w-4 h-4 mr-2 text-mokrap-accent" />
+                                {property.area}
+                            </div>
+                            {/* Basic logic to show icons based on features */}
+                            {property.features.some(f => f.toLowerCase().includes('bed')) && (
+                                <div className="flex items-center">
+                                    <Icons.Bed className="w-4 h-4 mr-2 text-mokrap-accent" />
+                                    {property.features.find(f => f.toLowerCase().includes('bed')).split(' ')[0]} Beds
+                                </div>
+                            )}
+                        </div>
+
+                        <button className="w-full py-3 border border-mokrap-accent text-mokrap-accent hover:bg-mokrap-accent hover:text-mokrap-dark font-medium rounded transition-colors">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <footer className="bg-mokrap-dark border-t border-mokrap-card mt-auto">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div>
+                                <h3 className="text-2xl font-bold text-mokrap-text mb-4">MOK<span className="text-mokrap-accent">RAP</span></h3>
+                                <p className="text-mokrap-muted max-w-xs">
+                                    Premium real estate services for the modern era. We find your dream space in the places that matter.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                                <ul className="space-y-2">
+                                    {NAV_LINKS.map(link => (
+                                        <li key={link.label}>
+                                            <Link to={link.path} className="text-mokrap-muted hover:text-mokrap-accent transition-colors">
+                                                {link.label}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-semibold text-white mb-4">Connect</h4>
+                                <div className="flex space-x-4">
+                                    <a href="#" className="text-mokrap-muted hover:text-mokrap-accent"><Icons.Instagram /></a>
+                                    <a href="#" className="text-mokrap-muted hover:text-mokrap-accent"><Icons.Twitter /></a>
+                                    <a href="#" className="text-mokrap-muted hover:text-mokrap-accent"><Icons.Linkedin /></a>
+                                </div>
+                                <p className="mt-4 text-sm text-mokrap-muted">
+                                    contact@mokrap.com <br/>
+                                    +1 (555) 123-4567
+                                </p>
+                            </div>
+                        </div>
+                        <div className="border-t border-mokrap-base mt-12 pt-8 text-center text-sm text-mokrap-muted">
+                            © {new Date().getFullYear()} MOKRAP Real Estate. All rights reserved.
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // --- PAGES ---
+
+        const Home = () => {
+            return (
+                <div className="flex flex-col">
+                    {/* Hero Section */}
+                    <div className="relative h-[600px] flex items-center justify-center">
+                        <div className="absolute inset-0">
+                            <img 
+                                src="https://picsum.photos/1920/1080?random=20" 
+                                alt="Hero" 
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-mokrap-dark/70"></div>
+                        </div>
+                        <div className="relative z-10 text-center px-4 max-w-4xl">
+                            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+                                Find Your <span className="text-mokrap-accent">Sanctuary</span>
+                            </h1>
+                            <p className="text-xl text-gray-300 mb-8">
+                                Exclusive properties, premium plots, and commercial spaces curated for the discerning buyer.
+                            </p>
+                            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                <Link to="/residential" className="px-8 py-4 bg-mokrap-accent text-mokrap-dark font-bold rounded hover:bg-white transition-colors">
+                                    Browse Residential
+                                </Link>
+                                <Link to="/contact" className="px-8 py-4 border border-white text-white font-bold rounded hover:bg-white hover:text-mokrap-dark transition-colors">
+                                    Contact an Agent
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Featured Section */}
+                    <div className="py-20 px-4 max-w-7xl mx-auto w-full">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-bold text-white mb-4">Featured Properties</h2>
+                            <div className="w-20 h-1 bg-mokrap-accent mx-auto rounded"></div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {MOCK_PROPERTIES.slice(0, 3).map(prop => (
+                                <PropertyCard key={prop.id} property={prop} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Listings = ({ title, type }) => {
+            const filteredProperties = MOCK_PROPERTIES.filter(p => p.type === type);
+
+            return (
+                <div className="py-12 px-4 max-w-7xl mx-auto w-full">
+                    <div className="mb-12">
+                        <h1 className="text-4xl font-bold text-white mb-4">{title}</h1>
+                        <p className="text-mokrap-muted">
+                            Showing {filteredProperties.length} results
+                        </p>
+                    </div>
+
+                    {filteredProperties.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filteredProperties.map(prop => (
+                                <PropertyCard key={prop.id} property={prop} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 bg-mokrap-card rounded-lg border border-mokrap-base">
+                            <h3 className="text-xl text-white mb-2">No properties found</h3>
+                            <p className="text-mokrap-muted">We currently don't have listings in this category. Check back soon!</p>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const ContactPage = () => {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                phone: '',
+                message: ''
+            });
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert('Message sent! We will contact you shortly.');
+                setFormData({ name: '', email: '', phone: '', message: '' });
+            };
+
+            return (
+                <div className="py-20 px-4 max-w-3xl mx-auto w-full">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
+                        <p className="text-mokrap-muted">
+                            Interested in a property or want to sell? Our experts are here to help.
+                        </p>
+                    </div>
+
+                    <div className="bg-mokrap-card p-8 rounded-lg border border-mokrap-base shadow-xl">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                <input 
+                                    type="text" 
+                                    required
+                                    className="w-full px-4 py-3 bg-mokrap-base border border-gray-700 rounded focus:ring-2 focus:ring-mokrap-accent focus:border-transparent text-white placeholder-gray-500 outline-none transition-all"
+                                    placeholder="John Doe"
+                                    value={formData.name}
+                                    onChange={e => setFormData({...formData, name: e.target.value})}
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                                    <input 
+                                        type="email" 
+                                        required
+                                        className="w-full px-4 py-3 bg-mokrap-base border border-gray-700 rounded focus:ring-2 focus:ring-mokrap-accent focus:border-transparent text-white placeholder-gray-500 outline-none transition-all"
+                                        placeholder="john@example.com"
+                                        value={formData.email}
+                                        onChange={e => setFormData({...formData, email: e.target.value})}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                                    <input 
+                                        type="tel" 
+                                        className="w-full px-4 py-3 bg-mokrap-base border border-gray-700 rounded focus:ring-2 focus:ring-mokrap-accent focus:border-transparent text-white placeholder-gray-500 outline-none transition-all"
+                                        placeholder="(555) 000-0000"
+                                        value={formData.phone}
+                                        onChange={e => setFormData({...formData, phone: e.target.value})}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                                <textarea 
+                                    rows="5"
+                                    required
+                                    className="w-full px-4 py-3 bg-mokrap-base border border-gray-700 rounded focus:ring-2 focus:ring-mokrap-accent focus:border-transparent text-white placeholder-gray-500 outline-none transition-all resize-none"
+                                    placeholder="I'm interested in..."
+                                    value={formData.message}
+                                    onChange={e => setFormData({...formData, message: e.target.value})}
+                                ></textarea>
+                            </div>
+                            <button 
+                                type="submit"
+                                className="w-full py-4 bg-mokrap-accent text-mokrap-dark font-bold rounded hover:bg-white transition-colors text-lg"
+                            >
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- MAIN APP & SCROLL HANDLER ---
+
+        const ScrollToTop = () => {
+          const { pathname } = useLocation();
+          useEffect(() => {
+            window.scrollTo(0, 0);
+          }, [pathname]);
+          return null;
+        };
+
+        const App = () => {
+          return (
+            <HashRouter>
+              <ScrollToTop />
+              <div className="flex flex-col min-h-screen font-sans bg-mokrap-dark text-mokrap-text selection:bg-mokrap-accent selection:text-white">
+                <Navbar />
+                <main className="flex-grow">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route 
+                      path="/residential" 
+                      element={<Listings title="Residential Properties" type={PropertyType.RESIDENTIAL} />} 
+                    />
+                    <Route 
+                      path="/plot" 
+                      element={<Listings title="Land & Plots" type={PropertyType.PLOT} />} 
+                    />
+                    <Route 
+                      path="/other" 
+                      element={<Listings title="Commercial & Other" type={PropertyType.OTHER} />} 
+                    />
+                    <Route path="/contact" element={<ContactPage />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            </HashRouter>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
